@@ -16,4 +16,5 @@ class PostRepository(private val apiInterface: ApiInterface) {
             postsList.postValue(result.body())
         }
     }
+
 }

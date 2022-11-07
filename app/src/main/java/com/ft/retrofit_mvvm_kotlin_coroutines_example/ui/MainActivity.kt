@@ -3,6 +3,7 @@ package com.ft.retrofit_mvvm_kotlin_coroutines_example.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ft.retrofit_mvvm_kotlin_coroutines_example.data.adapter.RvAdapter
@@ -29,15 +30,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialize() {
-        val apiInterface = ApiUtilities.getInstance().create(ApiInterface::class.java)
-        val repository = PostRepository(apiInterface)
-        viewModel = ViewModelProvider(this, PostViewModelFactory(repository))[PostViewModel::class.java]
+        viewModel = ViewModelProvider(this, PostViewModelFactory(
+            PostRepository(
+                ApiUtilities.getInstance().create(ApiInterface::class.java)
+            )
+        ))[PostViewModel::class.java]
 
         binding.rv.layoutManager = LinearLayoutManager(this)
         adapter = RvAdapter()
         binding.rv.adapter = adapter
 
+        binding.animationView.isVisible = true
         viewModel.postsList.observe(this) {
+            binding.animationView.isVisible = false
             Log.d("GET", "Get Data : ${it.toString()}")
             adapter.update(it)
         }

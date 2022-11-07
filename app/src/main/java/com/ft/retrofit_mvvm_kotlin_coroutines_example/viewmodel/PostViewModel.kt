@@ -1,6 +1,7 @@
 package com.ft.retrofit_mvvm_kotlin_coroutines_example.viewmodel
 
 
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,5 +19,7 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
     }
 
     val postsList: MutableLiveData<Posts> = postRepository.allPosts
+    val loading = MutableLiveData<Boolean>()
+
 
 }
